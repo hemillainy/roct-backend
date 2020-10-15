@@ -1,5 +1,6 @@
 from roct import db
 from dataclasses import dataclass
+from sqlalchemy.dialects.postgresql import UUID
 
 class User(db.Model):
     __tablename__ = 'users'
