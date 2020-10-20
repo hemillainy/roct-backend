@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 load_dotenv()
 
@@ -12,6 +13,7 @@ print(os.getenv('DB_URI'))
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
 
 # Blueprints
 from roct.views import auth, announcements, commands, users_resource
