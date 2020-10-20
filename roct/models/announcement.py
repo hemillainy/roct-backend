@@ -1,30 +1,32 @@
 from roct import db
-from uuid import uuid4
+import uuid
 from dataclasses import dataclass
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy_imageattach.entity import Image, image_attachment
 from sqlalchemy import Integer, Enum, String, Float, Column
 
-from .announcement_status import AnnouncementEnum
+from .enums import AnnouncementStatusEnum, AnnouncementTypeEnum
 
 
 @dataclass
 class Announcement(db.Model):
     __tablename__ = 'announcements'
 
-    uuid = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    uuid = Column(Integer, primary_key=True)
     # image = image_attachment('AnnouncementPicture')
     name = Column(String(255))
     description = Column(String(255))
     price = Column(Float)
-    status = Column(Enum(AnnouncementEnum))
+    status = Column(Enum(AnnouncementStatusEnum))
     # salesman = type salesman
+    type_ = Column(Enum(AnnouncementStatusEnum))
 
-    def __init__(self, name, description, price):
+    def __init__(self, name, description, price, type_):
         self.name = name
         self.description = description
         self.price = price
-        self.status = AnnouncementEnum.available
+        self.status = AnnouncementStatusEnum.available
+        self.type_ = AnnouncementStatusEnum[type_]
 
     @property
     def serialize(self):
