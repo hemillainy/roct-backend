@@ -15,6 +15,7 @@ class User(db.Model):
     password = Column(String(255), nullable=False)
     cpf = Column(String(255), nullable=False, unique=True)
     is_salesman = Column(Boolean(), default=False, nullable=False)
+    avatar = Column(String(255), nullable=False)
 
     def __init__(self, name, nickname, phone, email, password, isSalesman, cpf, avatar):
         self.name = name

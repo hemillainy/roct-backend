@@ -2,8 +2,11 @@
 
 ## Routes
     base - http://geovanens.pythonanywhere.com/
-## Users - 
-    GET
+## Users - /users
+    POST /users                      - create new user: {"name": String, "email": String, "cpf": String, "phone": String, "isSalesman": Boolean, "password": String, "nickname": String, "pwd": Object({"password": String, "confirm_password": String}, "avatar": String}
+    GET  /users/<id>                 - Get the user that has the id
+    PUT  /users/<id>                 - Update the user that has the id
+
 ## Announcements - /announcements
     GET  /check                      - check if announcements endpoints live
     GET  /announcements              - get list of all announcements
