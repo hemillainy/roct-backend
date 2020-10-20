@@ -13,7 +13,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 # Blueprints
-from roct.views import auth
+from roct.views import auth, users_resource
 app.register_blueprint(auth, url_prefix="/auth")
+app.register_blueprint(users_resource, url_prefix="/users")
 
 db.create_all()
