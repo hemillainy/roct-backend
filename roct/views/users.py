@@ -36,7 +36,7 @@ def update(id):
 
 
 @users_resource.route('<id>', methods=['GET'])
-def get(id: int):
+def get(id):
     user = User.query.get_or_404(id)
 
     return user.serialize()
