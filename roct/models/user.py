@@ -1,6 +1,7 @@
 from roct import db
 from dataclasses import dataclass
-from sqlalchemy.dialects.postgresql import UUID, Integer, Column, String
+from sqlalchemy.dialects.postgresql import UUID 
+from sqlalchemy import Integer, Column, String
 from flask_bcrypt import Bcrypt
 from uuid import uuid4
 
@@ -18,7 +19,7 @@ class User(db.Model):
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
     cpf = Column(String(255), nullable=False, unique=True)
-    is_salesman = Column(Boolean(), default=False, nullable=False)
+    is_salesman = Column(db.Boolean, default=False, nullable=False)
     avatar = Column(String(255), nullable=False)
 
     def __init__(self, name, nickname, phone, email, password, isSalesman, cpf, avatar):

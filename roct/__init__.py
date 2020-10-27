@@ -17,10 +17,11 @@ db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 
-jwt.init_app(app)
 
 # Blueprints
 from roct.views import auth, jwt, announcements, commands, users_resource
+
+jwt.init_app(app)
 
 app.register_blueprint(auth, url_prefix="/auth")
 app.register_blueprint(announcements, url_prefix="/announcements")
