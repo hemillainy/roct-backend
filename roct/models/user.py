@@ -8,12 +8,13 @@ from uuid import uuid4
 
 bcrypt = Bcrypt()
 
+
 @dataclass
 class User(db.Model):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False, unique=True)
+    name = Column(String(255), nullable=False)
     nickname = Column(String(255), nullable=False, unique=True)
     phone = Column(String(255), nullable=False, unique=True)
     email = Column(String(255), nullable=False, unique=True)
