@@ -11,19 +11,34 @@ bcrypt = Bcrypt()
 class User(db.Model):
     __tablename__ = 'users'
 
-    uuid = Column(Integer, primary_key=True)
-    name = Column(String(255))
-    nickname = Column(String(255))
-    phone = Column(String(255))
-    email = Column(String(255))
-    password = Column(String(255))
-    avatar = Column(String(255))
+    id = Column(Integer, primary_key=True)
+    name = Column(String(255), nullable=False, unique=True)
+    nickname = Column(String(255), nullable=False, unique=True)
+    phone = Column(String(255), nullable=False, unique=True)
+    email = Column(String(255), nullable=False, unique=True)
+    password = Column(String(255), nullable=False)
+    cpf = Column(String(255), nullable=False, unique=True)
+    is_salesman = Column(Boolean(), default=False, nullable=False)
+    avatar = Column(String(255), nullable=False)
 
-    def __init__(self, name, nickname, phone, email, password, avatar):
+    def __init__(self, name, nickname, phone, email, password, isSalesman, cpf, avatar):
         self.name = name
         self.nickname = nickname
         self.phone = phone
         self.email = email
         self.password = bcrypt.generate_password_hash(password).decode()
         self.avatar = avatar
-    
+        self.is_salesman = isSalesman
+        self.cpf = cpf
+
+    def serialize(self):
+        return {
+            "name": self.name,
+            "nickname": self.nickname,
+            "phone": self.phone,
+            "email": self.email,
+            "id": self.id,
+            "isSalesman": self.is_salesman,
+            "cpf": self.cpf,
+            "avatar": self.avatar
+        }

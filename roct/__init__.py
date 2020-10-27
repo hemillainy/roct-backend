@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 load_dotenv()
 
@@ -13,12 +14,15 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 db = SQLAlchemy(app)
+migrate = Migrate(app, db)
+
+
+jwt.init_app(app)
 
 # Blueprints
-from roct.views import auth, jwt, announcements, commands
-jwt.init_app(app)
+from roct.views import auth, jwt, announcements, commands, users_resource
+
 app.register_blueprint(auth, url_prefix="/auth")
 app.register_blueprint(announcements, url_prefix="/announcements")
 app.register_blueprint(commands, url_prefix="/commands")
-
-db.create_all()
+app.register_blueprint(users_resource, url_prefix="/users")
