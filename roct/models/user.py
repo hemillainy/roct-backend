@@ -1,7 +1,12 @@
 from roct import db
 from dataclasses import dataclass
-from sqlalchemy import String, Column, Boolean, Integer
+from sqlalchemy.dialects.postgresql import UUID 
+from sqlalchemy import Integer, Column, String
+from flask_bcrypt import Bcrypt
+from uuid import uuid4
 
+
+bcrypt = Bcrypt()
 
 @dataclass
 class User(db.Model):
@@ -14,7 +19,7 @@ class User(db.Model):
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
     cpf = Column(String(255), nullable=False, unique=True)
-    is_salesman = Column(Boolean(), default=False, nullable=False)
+    is_salesman = Column(db.Boolean, default=False, nullable=False)
     avatar = Column(String(255), nullable=False)
 
     def __init__(self, name, nickname, phone, email, password, isSalesman, cpf, avatar):
@@ -22,10 +27,10 @@ class User(db.Model):
         self.nickname = nickname
         self.phone = phone
         self.email = email
-        self.password = password
+        self.password = bcrypt.generate_password_hash(password).decode()
+        self.avatar = avatar
         self.is_salesman = isSalesman
         self.cpf = cpf
-        self.avatar = avatar
 
     def serialize(self):
         return {
