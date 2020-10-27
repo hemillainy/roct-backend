@@ -1,7 +1,13 @@
 from roct import db
-from sqlalchemy import Integer, Column, String
+from dataclasses import dataclass
+from sqlalchemy.dialects.postgresql import UUID, Integer, Column, String
+from flask_bcrypt import Bcrypt
+from uuid import uuid4
 
 
+bcrypt = Bcrypt()
+
+@dataclass
 class User(db.Model):
     __tablename__ = 'users'
 
@@ -18,5 +24,6 @@ class User(db.Model):
         self.nickname = nickname
         self.phone = phone
         self.email = email
-        self.password = password
+        self.password = bcrypt.generate_password_hash(password).decode()
         self.avatar = avatar
+    
