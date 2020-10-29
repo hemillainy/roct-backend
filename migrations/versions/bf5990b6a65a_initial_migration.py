@@ -42,7 +42,6 @@ def upgrade():
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),
     sa.UniqueConstraint('email'),
-    sa.UniqueConstraint('name'),
     sa.UniqueConstraint('nickname'),
     sa.UniqueConstraint('phone')
     )

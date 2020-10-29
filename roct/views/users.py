@@ -21,7 +21,7 @@ def create():
     db.session.add(user)
     db.session.commit()
 
-    return user.serialize()
+    return user.serialize(), 201
 
 
 @users_resource.route('<id>', methods=['PUT'])
