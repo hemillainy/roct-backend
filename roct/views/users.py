@@ -1,13 +1,10 @@
-from flask import Blueprint, request, abort
+from flask import Blueprint, request
 from roct import db
 from roct.models import User
+from flask_jwt_extended import jwt_required
+from roct.utils import check_user_is_same, check_password
 
 users_resource = Blueprint('users', __name__)
-
-
-def check_password(pwd):
-    if pwd['password'] != pwd['confirm_password']:
-        abort(412)
 
 
 @users_resource.route('', methods=['POST'])
@@ -25,6 +22,8 @@ def create():
 
 
 @users_resource.route('<id>', methods=['PUT'])
+@jwt_required
+@check_user_is_same
 def update(id):
     data = request.get_json()
     user = User.query.get_or_404(id)
@@ -36,6 +35,8 @@ def update(id):
 
 
 @users_resource.route('<id>', methods=['GET'])
+@jwt_required
+@check_user_is_same
 def get(id):
     user = User.query.get_or_404(id)
 
