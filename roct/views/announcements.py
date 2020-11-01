@@ -18,6 +18,29 @@ def get_all():
     })
 
 
+@announcements.route('search/<game_search>/<server_search>/<name_search>', methods=['GET'])
+def search_in_server(game_search, server_search, name_search):
+    find = Announcement.query.filter(
+        Announcement.game.is_(game_search),
+        Announcement.server.is_(server_search),
+        Announcement.name.contains(name_search)
+    ).all()
+    return jsonify({
+        'data': [e.serialize for e in find]
+    })
+
+
+@announcements.route('search/<game_search>/<name_search>', methods=['GET'])
+def search_in_game(game_search, name_search):
+    find = Announcement.query.filter(
+        Announcement.game.is_(game_search),
+        Announcement.name.contains(name_search)
+    ).all()
+    return jsonify({
+        'data': [e.serialize for e in find]
+    })
+
+
 @announcements.route('<uuid>', methods=['GET'])
 def get_one(uuid):
     announcement = Announcement.query.get(uuid)
