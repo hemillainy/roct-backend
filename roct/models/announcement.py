@@ -17,8 +17,10 @@ class Announcement(db.Model):
     status = Column(Enum(AnnouncementStatusEnum))
     type_ = Column(Enum(AnnouncementTypeEnum))
     salesman_uuid = Column(Integer)
+    game = Column(String(255))
+    server = Column(String(255))
 
-    def __init__(self, image, name, description, price, type_, salesman_uuid):
+    def __init__(self, image, name, description, price, type_, salesman_uuid, server, game="LOL"):
         self.image = image
         self.name = name
         self.description = description
@@ -26,6 +28,8 @@ class Announcement(db.Model):
         self.status = AnnouncementStatusEnum.available
         self.type_ = AnnouncementTypeEnum[type_]
         self.salesman_uuid = salesman_uuid
+        self.server = server
+        self.game = game
 
     @property
     def serialize(self):
