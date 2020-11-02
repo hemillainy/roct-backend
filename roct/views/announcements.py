@@ -1,9 +1,25 @@
 from flask import Blueprint, request, jsonify
 from roct import db
+import re
 
 from roct.models import Announcement
 
 announcements = Blueprint('announcements', __name__)
+
+
+def paginate(query, page, per_page):
+    page = query.paginate(page=page, per_page=per_page)
+    items = [e.serialize for e in page.items]
+    info = {
+        "page": page.page,
+        "per_page": page.per_page,
+        "total": page.total
+    }
+    print("\n\n\n END PAGINATE")
+    return jsonify({
+        'data': items,
+        "info": info
+    })
 
 
 @announcements.route('check', methods=['GET'])
@@ -11,34 +27,17 @@ def check():
     return "Hello World"
 
 
-@announcements.route('', methods=['GET'])
+@announcements.route('', methods=['POST'])
 def get_all():
-    return jsonify({
-        'data': [e.serialize for e in Announcement.query.all()]
-    })
+    print("OIOIOIOIO")
+    data = request.get_json()
+    print(data)
 
+    page = data['page']
+    per_page = data['per_page']
 
-@announcements.route('search/<game_search>/<server_search>/<name_search>', methods=['GET'])
-def search_in_server(game_search, server_search, name_search):
-    find = Announcement.query.filter(
-        Announcement.game.is_(game_search),
-        Announcement.server.is_(server_search),
-        Announcement.name.contains(name_search)
-    ).all()
-    return jsonify({
-        'data': [e.serialize for e in find]
-    })
-
-
-@announcements.route('search/<game_search>/<name_search>', methods=['GET'])
-def search_in_game(game_search, name_search):
-    find = Announcement.query.filter(
-        Announcement.game.is_(game_search),
-        Announcement.name.contains(name_search)
-    ).all()
-    return jsonify({
-        'data': [e.serialize for e in find]
-    })
+    find = Announcement.query.filter_by(status='available')
+    return paginate(find, page=page, per_page=per_page)
 
 
 @announcements.route('<uuid>', methods=['GET'])
@@ -47,12 +46,41 @@ def get_one(uuid):
     return jsonify(announcement.serialize)
 
 
-@announcements.route('search/<var>', methods=['GET'])
-def search(var):
-    find = Announcement.query.filter(Announcement.name.contains(var)).all()
-    return jsonify({
-        'data': [e.serialize for e in find]
-    })
+def is_valid_parameter(parameter):
+    return parameter and type(parameter) == str
+
+
+def filter_by_item(find, var):
+    find = find.filter(Announcement.name.contains(var))
+    return find
+
+
+@announcements.route('search', methods=['POST'])
+def search():
+    data = request.get_json()
+    game_search = data['game'],
+    server_search = data['server'],
+    name_search = data['item']
+    type_search = data['type_']
+
+    page = data['page']
+    per_page = data['per_page']
+
+    find = Announcement.query
+    if is_valid_parameter(game_search):
+        print("FILTER BY GAME", game_search)
+        find = find.filter_by(game=game_search)
+    if is_valid_parameter(server_search):
+        print("FILTER BY SERVER", server_search)
+        find = find.filter_by(server=server_search)
+    if is_valid_parameter(type_search):
+        print("FILTER BY TYPE", type_search)
+        find = find.filter_by(type_=type_search)
+    if is_valid_parameter(name_search):
+        print("FILTER BY NAME", name_search)
+        find = filter_by_item(find, name_search)
+
+    return paginate(find, page=page, per_page=per_page)
 
 
 @announcements.route('add', methods=['POST'])
