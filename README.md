@@ -20,7 +20,7 @@
 ## Announcements - /announcements
 
     GET  /check                      - check if announcements endpoints live
-    POST  /announcements              - get list of all announcements available -  need body with page(int) and per_page(int)
+    POST  /announcements             - get list of all announcements available -  need body with page(int) and per_page(int)
     GET  /announcements/<uuid>       - get one announcement, need uiid announcement
-    GET  /announcements/search/ - takes a list of announcement filter by body -  need body with game(string: game name), server(string: server name), item(string: substring for search item by name), type_(options {item, account, gold}),  page(int) and per_page(int)
+    GET  /announcements/search/      - takes a list of announcement filter by body -  need body with game(string: game name), server(string: server name), item(string: substring for search item by name), type_(options {item, account, gold}),  page(int) and per_page(int)
     POST /announcements/add          - add new announcement - need body with  image(url), name(string), description(string), price(float), type_({item, account, gold}), salesman_uuid(int)
