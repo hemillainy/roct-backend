@@ -1,11 +1,6 @@
-from flask import jsonify, abort
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask import jsonify
+from flask_jwt_extended import get_jwt_identity
 from functools import wraps
-
-
-def check_password(pwd):
-    if pwd['password'] != pwd['confirm_password']:
-        abort(412)
 
 
 def check_user_is_same(fn):

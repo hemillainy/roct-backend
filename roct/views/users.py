@@ -2,7 +2,7 @@ from flask import Blueprint, request
 from roct import db
 from roct.models import User
 from flask_jwt_extended import jwt_required
-from roct.utils import check_user_is_same, check_password
+from roct.utils import check_user_is_same
 
 users_resource = Blueprint('users', __name__)
 
@@ -10,9 +10,6 @@ users_resource = Blueprint('users', __name__)
 @users_resource.route('', methods=['POST'])
 def create():
     data = request.get_json()
-
-    check_password(data['pwd'])
-    data.pop('pwd')
 
     user = User(**data)
     db.session.add(user)
