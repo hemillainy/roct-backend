@@ -1,8 +1,9 @@
 from roct import db
 from dataclasses import dataclass
-from sqlalchemy import Integer, Enum, String, Float, Column, ForeignKey
-
+from sqlalchemy import Integer, Enum, String, Float, Column, ForeignKey, DateTime
+import datetime
 from .enums import AnnouncementStatusEnum, AnnouncementTypeEnum
+from .user import User
 
 
 @dataclass
@@ -19,8 +20,10 @@ class Announcement(db.Model):
     salesman_uuid = Column(Integer)
     game = Column(String(255))
     server = Column(String(255))
+    created_at = Column(DateTime, default=datetime.datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.datetime.utcnow)
 
-    def __init__(self, image, name, description, price, type_, salesman_uuid, server, game="LOL"):
+    def __init__(self, image, name, description, price, type_, salesman_uuid, server, game="wyd"):
         self.image = image
         self.name = name
         self.description = description
@@ -30,6 +33,10 @@ class Announcement(db.Model):
         self.salesman_uuid = salesman_uuid
         self.server = server
         self.game = game
+
+    @property
+    def get_user(self):
+        return User.query.filter_by(id=self.salesman_uuid).first().serialize()
 
     @property
     def serialize(self):
@@ -42,5 +49,9 @@ class Announcement(db.Model):
             'price': self.price,
             'status': self.status.serialize,
             'type_': self.type_.serialize,
-            'salesman_uuid': self.salesman_uuid
+            'salesman': self.get_user,
+            'game': self.game,
+            'server': self.server,
+            "created_at": self.created_at,
+            "updated_at": self.updated_at
         }
