@@ -16,6 +16,7 @@
     POST /users                      - create new user: {"name": String, "email": String, "cpf": String, "phone": String, "isSalesman": Boolean, "password": String, "avatar": String}
     GET  /users/<id>                 - Get the user that has the id
     PUT  /users/<id>                 - Update the user that has the id
+    PUT / users/<id>/changePassword  - Change user password: {"password": String}
 
 ## Announcements - /announcements
 
