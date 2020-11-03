@@ -28,7 +28,9 @@ class AuthUser:
 @auth.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
+    print("\n\n\n")
     print(data)
+    print("\n\n\n")
     email = data['email']
     password = data['password']
 
