@@ -5,17 +5,17 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
 
-load_dotenv()
+APP_ROOT = os.path.join(os.path.dirname('__file__'), '..')   # refers to application_top
+dotenv_path = os.path.join(APP_ROOT, '.env')
+load_dotenv(dotenv_path)
+
 
 app = Flask(__name__)
 CORS(app)
 
-DB_URI='sqlite:///db.sqlite3'
-SECRET_KEY='roctbackend'
-
-app.config['SQLALCHEMY_DATABASE_URI'] = DB_URI
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DB_URI')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = SECRET_KEY
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
