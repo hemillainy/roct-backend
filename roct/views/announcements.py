@@ -3,6 +3,7 @@ from roct import db
 import re
 
 from roct.models import Announcement
+from roct.models.enums import AnnouncementStatusEnum, AnnouncementTypeEnum
 
 announcements = Blueprint('announcements', __name__)
 
@@ -85,13 +86,46 @@ def search():
 
 @announcements.route('add', methods=['POST'])
 def create():
-    print("\n\n\n")
     print(request.get_json())
     print("\n\n\n")
     announcement = Announcement(**request.get_json())
     db.session.add(announcement)
     db.session.commit()
     return jsonify(announcement.serialize)
+
+
+@announcements.route('status', methods=['GET'])
+def get_status():
+    status = [e.name for e in list(AnnouncementStatusEnum)]
+    return jsonify(status)
+
+
+@announcements.route('types', methods=['GET'])
+def get_types():
+    types = [e.name for e in list(AnnouncementTypeEnum)]
+    return jsonify(types)
+
+
+@announcements.route('games', methods=['GET'])
+def get_games():
+    games = list(set([e.game for e in Announcement.query.all()]))
+    return jsonify(games)
+
+
+@announcements.route('servers', methods=['GET'])
+def get_servers():
+    servers = list(set([e.server for e in Announcement.query.all()]))
+    return jsonify(servers)
+
+
+@announcements.route('salesman/<salesman_uuid>', methods=['POST'])
+def get_salesman_ann(salesman_uuid):
+    data = request.get_json()
+    page = data['page']
+    per_page = data['per_page']
+
+    salesman_ann = Announcement.query.filter_by(salesman_uuid=salesman_uuid)
+    return paginate(salesman_ann, page=page, per_page=per_page)
 
 
 # @announcements.route('edit/<uuid>', methods=['POST'])
