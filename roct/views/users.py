@@ -25,13 +25,14 @@ def create():
 @check_user_is_same
 def update(id):
     data = request.get_json()
-
-    if 'password' in data:
-        del data['password']
+    blocked_fields = {"password", 'id' }
 
     user = User.query.get_or_404(id)
 
-    user.query.update(data)
+    for key in data:
+        if key not in blocked_fields:
+            setattr(user, key, data[key])
+
     db.session.commit()
 
     return user.serialize()
