@@ -4,6 +4,7 @@ from roct.models import User
 from flask_jwt_extended import jwt_required
 from roct.utils import check_user_is_same
 from flask_bcrypt import Bcrypt
+from .auth import create_response_user_and_token
 
 users_resource = Blueprint('users', __name__)
 bcrypt = Bcrypt()
@@ -14,10 +15,11 @@ def create():
     data = request.get_json()
 
     user = User(**data)
+
     db.session.add(user)
     db.session.commit()
 
-    return user.serialize(), 201
+    return create_response_user_and_token(user), 201
 
 
 @users_resource.route('<id>', methods=['PUT'])
@@ -25,9 +27,12 @@ def create():
 @check_user_is_same
 def update(id):
     data = request.get_json()
-    blocked_fields = {"password", 'id' }
+    blocked_fields = {"password", 'id'}
 
     user = User.query.get_or_404(id)
+
+    if user.isSalesman:
+        blocked_fields.add('isSalesman')
 
     for key in data:
         if key not in blocked_fields:

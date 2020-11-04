@@ -25,12 +25,20 @@ class AuthUser:
         }
 
 
+def create_response_user_and_token(user):
+    auth_user = AuthUser(user.id, user.email)
+
+    return make_response(jsonify({
+        'token': create_access_token(auth_user),
+        'user': user.serialize()
+    })
+    )
+
+
 @auth.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    print("\n\n\n")
-    print(data)
-    print("\n\n\n")
+
     email = data['email']
     password = data['password']
 
@@ -38,9 +46,5 @@ def login():
     if user is None or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'msg': 'Bad credentials'}), 401
 
-    auth_user = AuthUser(user.id, user.email)
-    
-    return make_response(jsonify({
-        'token': create_access_token(auth_user),
-	'user': user.serialize()
-    }))
+    return create_response_user_and_token(user)
+
