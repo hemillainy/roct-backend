@@ -40,7 +40,7 @@ def upgrade():
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=False),
     sa.Column('cpf', sa.String(length=255), nullable=False),
-    sa.Column('is_salesman', sa.Boolean(), nullable=False),
+    sa.Column('isSalesman', sa.Boolean(), nullable=False),
     sa.Column('avatar', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('cpf'),

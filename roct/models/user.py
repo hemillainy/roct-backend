@@ -17,7 +17,7 @@ class User(db.Model):
     email = Column(String(255), nullable=False, unique=True)
     password = Column(String(255), nullable=False)
     cpf = Column(String(255), nullable=False, unique=True)
-    is_salesman = Column(db.Boolean, default=False, nullable=False)
+    isSalesman = Column(db.Boolean, default=False, nullable=False)
     avatar = Column(String(255))
 
     def __init__(self, name, phone, email, password, isSalesman, cpf, avatar):
@@ -35,7 +35,7 @@ class User(db.Model):
             "phone": self.phone,
             "email": self.email,
             "id": self.id,
-            "isSalesman": self.is_salesman,
+            "isSalesman": self.isSalesman,
             "cpf": self.cpf,
             "avatar": self.avatar
         }
