@@ -39,7 +39,8 @@ def login():
         return jsonify({'msg': 'Bad credentials'}), 401
 
     auth_user = AuthUser(user.id, user.email)
-
+    
     return make_response(jsonify({
-        'token': create_access_token(auth_user)
+        'token': create_access_token(auth_user),
+	'user': user.serialize()
     }))
