@@ -26,7 +26,7 @@ class User(db.Model):
         self.email = email
         self.password = bcrypt.generate_password_hash(password).decode()
         self.avatar = avatar
-        self.is_salesman = isSalesman
+        self.isSalesman = isSalesman
         self.cpf = cpf
 
     def serialize(self):

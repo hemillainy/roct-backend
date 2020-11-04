@@ -5,9 +5,9 @@ from flask_jwt_extended import jwt_required
 from roct.utils import check_user_is_same
 from flask_bcrypt import Bcrypt
 
-
 users_resource = Blueprint('users', __name__)
 bcrypt = Bcrypt()
+
 
 @users_resource.route('', methods=['POST'])
 def create():
@@ -26,7 +26,8 @@ def create():
 def update(id):
     data = request.get_json()
 
-    del data['password']
+    if 'password' in data:
+        del data['password']
 
     user = User.query.get_or_404(id)
 
