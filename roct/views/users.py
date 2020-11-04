@@ -52,9 +52,11 @@ def change_password(id):
     data = request.get_json()
     user = User.query.get_or_404(id)
 
-    data['password'] = bcrypt.generate_password_hash(data['password']).decode()
+    new_values = {
+        "password": bcrypt.generate_password_hash(data['password']).decode()
+    }
 
-    user.query.update(data)
+    user.query.update(new_values)
     db.session.commit()
 
     return user.serialize()
