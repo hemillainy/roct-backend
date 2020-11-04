@@ -5,9 +5,8 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_cors import CORS
 
-APP_ROOT = os.path.join(os.path.dirname('__file__'), '..')   # refers to application_top
-dotenv_path = os.path.join(APP_ROOT, '.env')
-load_dotenv(dotenv_path)
+project_folder = os.path.expanduser('~/roct-backend')
+load_dotenv(os.path.join(project_folder, '.env'))
 
 
 app = Flask(__name__)
