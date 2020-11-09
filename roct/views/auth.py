@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, make_response
 from flask_jwt_extended import (JWTManager, create_access_token)
 from flask_bcrypt import Bcrypt
 from dataclasses import dataclass
-
+import datetime
 from roct.models import User
 
 auth = Blueprint('auth', __name__)
@@ -46,5 +46,7 @@ def login():
     if user is None or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'msg': 'Bad credentials'}), 401
 
-    return create_response_user_and_token(user)
+    expires = datetime.timedelta(days=1)
+
+    return create_response_user_and_token(user, expires_delta=expires)
 

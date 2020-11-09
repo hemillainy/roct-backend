@@ -1,4 +1,4 @@
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 from roct import db
 from roct.models import User
 from flask_jwt_extended import jwt_required
@@ -59,8 +59,11 @@ def change_password(id):
     data = request.get_json()
     user = User.query.get_or_404(id)
 
+    if not bcrypt.check_password_hash(user.password, data['oldPassword']):
+        return jsonify({'msg': 'Bad credentials'}), 401
+
     new_values = {
-        "password": bcrypt.generate_password_hash(data['password']).decode()
+        "password": bcrypt.generate_password_hash(data['newPassword']).decode()
     }
 
     user.query.update(new_values)
