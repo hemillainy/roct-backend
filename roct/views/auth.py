@@ -31,10 +31,10 @@ def create_response_user_and_token(user):
     expires = datetime.timedelta(days=1)
 
     return make_response(jsonify({
-            'token': create_access_token(auth_user, expires_delta=expires),
-            'user': user.serialize()
-        })
-        )
+        'token': create_access_token(auth_user, expires_delta=expires),
+        'user': user.serialize()
+    })
+    )
 
 
 @auth.route('/login', methods=['POST'])
@@ -49,4 +49,3 @@ def login():
         return jsonify({'msg': 'Bad credentials'}), 401
 
     return create_response_user_and_token(user)
-
