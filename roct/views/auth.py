@@ -2,7 +2,7 @@ from flask import Blueprint, request, jsonify, make_response
 from flask_jwt_extended import (JWTManager, create_access_token)
 from flask_bcrypt import Bcrypt
 from dataclasses import dataclass
-
+import datetime
 from roct.models import User
 
 auth = Blueprint('auth', __name__)
@@ -28,11 +28,13 @@ class AuthUser:
 def create_response_user_and_token(user):
     auth_user = AuthUser(user.id, user.email)
 
+    expires = datetime.timedelta(days=1)
+
     return make_response(jsonify({
-        'token': create_access_token(auth_user),
-        'user': user.serialize()
-    })
-    )
+            'token': create_access_token(auth_user, expires_delta=expires),
+            'user': user.serialize()
+        })
+        )
 
 
 @auth.route('/login', methods=['POST'])
