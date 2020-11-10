@@ -45,7 +45,6 @@ def login():
     password = data['password']
 
     user = User.query.filter_by(email=email).first()
-    print(user.serialize(), bcrypt.check_password_hash(user.password, password))
     if user is None or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'msg': 'Bad credentials'}), 401
 
