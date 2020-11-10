@@ -25,11 +25,11 @@ class AuthUser:
         }
 
 
-def create_response_user_and_token(user):
+def create_response_user_and_token(user, expires_delta):
     auth_user = AuthUser(user.id, user.email)
 
     return make_response(jsonify({
-        'token': create_access_token(auth_user),
+        'token': create_access_token(auth_user, expires_delta=expires_delta),
         'user': user.serialize()
     })
     )
@@ -48,5 +48,5 @@ def login():
 
     expires = datetime.timedelta(days=1)
 
-    return create_response_user_and_token(user, expires_delta=expires)
+    return create_response_user_and_token(user, expires)
 
