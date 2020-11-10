@@ -31,10 +31,10 @@ def create_response_user_and_token(user):
     expires = datetime.timedelta(days=1)
 
     return make_response(jsonify({
-            'token': create_access_token(auth_user, expires_delta=expires),
-            'user': user.serialize()
-        })
-        )
+        'token': create_access_token(auth_user, expires_delta=expires),
+        'user': user.serialize()
+    })
+    )
 
 
 @auth.route('/login', methods=['POST'])
@@ -45,8 +45,8 @@ def login():
     password = data['password']
 
     user = User.query.filter_by(email=email).first()
+    print(user.serialize(), bcrypt.check_password_hash(user.password, password))
     if user is None or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'msg': 'Bad credentials'}), 401
 
     return create_response_user_and_token(user)
-
