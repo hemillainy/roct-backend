@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from roct import db
 import re
+from flask_jwt_extended import jwt_required
 
 from roct.models import Announcement
 from roct.models.enums import AnnouncementStatusEnum, AnnouncementTypeEnum
@@ -30,14 +31,13 @@ def check():
 
 @announcements.route('', methods=['POST'])
 def get_all():
-    print("OIOIOIOIO")
     data = request.get_json()
     print(data)
 
     page = data['page']
     per_page = data['per_page']
 
-    find = Announcement.query.filter_by(status='available')
+    find = Announcement.query.filter_by(available=True)
     return paginate(find, page=page, per_page=per_page)
 
 
@@ -85,9 +85,8 @@ def search():
 
 
 @announcements.route('add', methods=['POST'])
+@jwt_required
 def create():
-    print(request.get_json())
-    print("\n\n\n")
     announcement = Announcement(**request.get_json())
     db.session.add(announcement)
     db.session.commit()
@@ -119,6 +118,7 @@ def get_servers():
 
 
 @announcements.route('salesman/<salesman_uuid>', methods=['POST'])
+@jwt_required
 def get_salesman_ann(salesman_uuid):
     data = request.get_json()
     page = data['page']
