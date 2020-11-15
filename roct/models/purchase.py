@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from sqlalchemy import Integer, Enum, String, Column
 from .enums import PurchaseStatusEnum, TypeCard
 from .user import User
+from .announcement import Announcement
 
 
 @dataclass
@@ -45,12 +46,16 @@ class Purchase(db.Model):
         return User.query.filter_by(id=self.buyer_uuid).first().serialize()
 
     @property
+    def get_announcement(self):
+        return Announcement.query.filter_by(uuid=self.announcement_uuid).first().serialize()
+
+    @property
     def serialize(self):
         """Return object data in easily serializable format"""
         return {
             'uuid': self.uuid,
             'status': self.status.serialize,
-            'announcement_uuid': self.announcement_uuid,
+            'announcement': self.get_announcement,
             'type_card': self.type_card.serialize,
             'number_card': self.number_card,
             'cpf_owner_card': self.cpf_owner_card,
