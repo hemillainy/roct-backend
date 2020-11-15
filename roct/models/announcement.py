@@ -1,6 +1,6 @@
 from roct import db
 from dataclasses import dataclass
-from sqlalchemy import Integer, Enum, String, Float, Column, ForeignKey, DateTime
+from sqlalchemy import Integer, Enum, String, Float, Column, Boolean, DateTime
 import datetime
 from .enums import AnnouncementStatusEnum, AnnouncementTypeEnum
 from .user import User
@@ -15,7 +15,7 @@ class Announcement(db.Model):
     name = Column(String(255))
     description = Column(String(255))
     price = Column(Float)
-    status = Column(Enum(AnnouncementStatusEnum))
+    available = Column(Boolean)
     type_ = Column(Enum(AnnouncementTypeEnum))
     salesman_uuid = Column(Integer)
     game = Column(String(255))
@@ -28,7 +28,7 @@ class Announcement(db.Model):
         self.name = name
         self.description = description
         self.price = price
-        self.status = AnnouncementStatusEnum.available
+        self.available = True
         self.type_ = AnnouncementTypeEnum[type_]
         self.salesman_uuid = salesman_uuid
         self.server = server
@@ -47,7 +47,7 @@ class Announcement(db.Model):
             'name': self.name,
             'description': self.description,
             'price': self.price,
-            'status': self.status.serialize,
+            'available': self.available,
             'type_': self.type_.serialize,
             'salesman': self.get_user,
             'game': self.game,

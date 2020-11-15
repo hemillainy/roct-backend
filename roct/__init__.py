@@ -21,7 +21,7 @@ migrate = Migrate(app, db)
 
 
 # Blueprints
-from roct.views import auth, jwt, announcements, commands, users_resource
+from roct.views import auth, jwt, announcements, commands, users_resource, purchases
 
 jwt.init_app(app)
 
@@ -29,3 +29,4 @@ app.register_blueprint(auth, url_prefix="/auth")
 app.register_blueprint(announcements, url_prefix="/announcements")
 app.register_blueprint(commands, url_prefix="/commands")
 app.register_blueprint(users_resource, url_prefix="/users")
+app.register_blueprint(purchases, url_prefix="/purchases")

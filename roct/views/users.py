@@ -62,11 +62,9 @@ def change_password(id):
     if not bcrypt.check_password_hash(user.password, data['oldPassword']):
         return jsonify({'msg': 'Bad credentials'}), 401
 
-    new_values = {
-        "password": bcrypt.generate_password_hash(data['newPassword']).decode()
-    }
+    new_value = bcrypt.generate_password_hash(data['newPassword']).decode()
 
-    user.query.update(new_values)
+    setattr(user, 'password', new_value)
     db.session.commit()
 
     return user.serialize()
