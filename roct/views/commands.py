@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from roct import db
+from roct.utils.populate import populate_team, populate_items
 
 commands = Blueprint('commands', __name__)
 
@@ -15,4 +16,13 @@ def restart():
     db.create_all()
     return jsonify({
         'data': 'Database restarted.'
+    })
+
+
+@commands.route('populate', methods=['POST'])
+def populate():
+    token = populate_team()
+    populate_items(token)
+    return jsonify({
+        'data': 'Database populated.'
     })
