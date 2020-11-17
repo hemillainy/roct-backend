@@ -16,7 +16,7 @@
     POST /users                                - create new user: {"name": String, "email": String, "cpf": String, "phone": String, "isSalesman": Boolean, "password": String, "avatar": String}
     GET  /users/<id>                           - Get the user that has the id
     PUT  /users/<id>                           - Update the user that has the id
-    PUT / users/<id>/changePassword            - Change user password: {"password": String}
+    PUT / users/<id>/changePassword            - Change user password: {"newPassword": String, "oldPassword": String}
 
 ## Announcements - /announcements
 
@@ -30,3 +30,7 @@
     GET /announcements/games                    - list games announcements in database
     GET /announcements/servers                  - list servers announcements in database
     GET /announcements/salesman/<salesman_uuid> - get all announcements wiht salesman_uuid - need body with page(int) and per_page(int)
+
+## 
+
+    PUT /purchases/<uuid>/confirmDelivery       - confirm that the item has been delivered

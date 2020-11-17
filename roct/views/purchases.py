@@ -1,6 +1,6 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 from roct import db
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from roct.models import Purchase, Announcement
 from roct.models.enums import PurchaseStatusEnum
@@ -16,7 +16,7 @@ def paginate(query, page, per_page):
         "per_page": page.per_page,
         "total": page.total
     }
-    print("\n\n\n END PAGINATE")
+
     return jsonify({
         'data': items,
         "info": info
@@ -76,3 +76,31 @@ def get_purchases():
 
     salesman_ann = Purchase.query.filter_by(buyer_uuid=buyer_uuid)
     return paginate(salesman_ann, page=page, per_page=per_page)
+
+
+@purchases.route('<uuid>/confirmDelivery', methods=['PUT'])
+@jwt_required
+def confirm_delivery(uuid):
+    user = get_jwt_identity()
+    purchase = Purchase.query.get_or_404(uuid)
+    is_salesman = purchase.salesman_uuid == user['id']
+
+    if user['id'] != purchase.salesman_uuid and user['id'] != purchase.buyer_uuid:
+        return jsonify(mgs='Forbidden'), 403
+    if not purchase.status == PurchaseStatusEnum.paid:
+        return jsonify(mgs='Confirmation not available!'), 409
+
+    if is_salesman:
+        purchase.salesman_delivery_confirmation = True
+    else:
+        purchase.buyer_delivery_confirmation = True
+
+    if purchase.salesman_delivery_confirmation and purchase.buyer_delivery_confirmation:
+        purchase.status = PurchaseStatusEnum.finished
+    elif purchase.salesman_delivery_confirmation or purchase.buyer_delivery_confirmation:
+        purchase.status = PurchaseStatusEnum.delivered
+
+    db.session.commit()
+
+    return purchase.serialize()
+
