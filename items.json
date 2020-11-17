@@ -1,0 +1,92 @@
+[
+   {
+      "image":"https://pbs.twimg.com/media/Eg7_b0IXkAk-8T7?format=png&name=360x360",
+      "name":"espada gpc",
+      "description":"uma espada grande pra caramba",
+      "price":"9.99",
+      "type_":"item",
+      "salesman_uuid":3,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://pbs.twimg.com/media/Eg7_byqXkAc8NBR?format=png&name=360x360",
+      "name":"capuz da morte de rabadon",
+      "description":"famoso chapeu seletor",
+      "price":"9.99",
+      "type_":"item",
+      "salesman_uuid":3,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://i.pinimg.com/originals/21/4b/87/214b87ab5b7ca8562b1ed6493870b5ad.jpg",
+      "name":"eco de luden",
+      "description":"o bastaozin roxo",
+      "price":"9.99",
+      "type_":"item",
+      "salesman_uuid":1,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://pbs.twimg.com/media/EPoihwqXkAA3mC7?format=png&name=360x360",
+      "name":"morello",
+      "description":"\\u00e9 o morellomanic\\u00e3o",
+      "price":"9.99",
+      "type_":"item",
+      "salesman_uuid":3,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://3.bp.blogspot.com/-VysH0JLMhoU/W75Tbu1VCoI/AAAAAAABI34/vJxUqXP9MzwyT1OUd3WPC_cTkBHWACUKQCLcBGAs/s1600/popstar-bag-490px.png",
+      "name":"Saco de presentes kda",
+      "description":"Abra para adquirir uma skin kda all out",
+      "price":"35",
+      "type_":"gold",
+      "salesman_uuid":1,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/0/0b/Skin_Loading_Screen_KDA_ALL_OUT_Kai%27Sa_Prestige_Edition.jpg",
+      "name":"K/DA ALL OUT Kai\\'Sa Prestige Edition",
+      "description":"Skin da patroa",
+      "price":"9.99",
+      "type_":"account",
+      "salesman_uuid":5,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://static.wikia.nocookie.net/lolesports_gamepedia_en/images/1/10/Skin_Loading_Screen_KDA_ALL_OUT_Ahri.jpg",
+      "name":"KDA ALL OUT Ahri",
+      "description":"narutinha estilosa",
+      "price":"9.99",
+      "type_":"account",
+      "salesman_uuid":2,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://cdn-products.eneba.com/resized-products/MdhEwswVoDD9xBwEB1iuEeKqApCMZ0C6qEzhteF0Rik_350x200_1x-0.jpeg",
+      "name":"RR LIGA DAS LENDAS",
+      "description":"10 bozos de RPzin",
+      "price":"10",
+      "type_":"gold",
+      "salesman_uuid":3,
+      "server":"server1",
+      "game":"lol"
+   },
+   {
+      "image":"https://exitoina.uol.com.br/media/_versions/lol_emicida_widelg.jpg",
+      "name":"Ekko True Damage",
+      "description":"bora mandar um rap",
+      "price":"10",
+      "type_":"account",
+      "salesman_uuid":3,
+      "server":"server2",
+      "game":"lol"
+   }
+]
