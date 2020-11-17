@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify
-from roct import db
+from roct import db, mail
 import re
 
 from roct.models import Announcement
 from roct.models.enums import AnnouncementStatusEnum, AnnouncementTypeEnum
+from flask_mail import Message
 
 announcements = Blueprint('announcements', __name__)
 
@@ -133,3 +134,9 @@ def get_salesman_ann(salesman_uuid):
 #     announcement = Announcement.query.get(uuid)
 #     print("editing")
 #     return jsonify(announcement.serialize)
+
+def send_notification_email(email):
+    msg = Message("Anúncio Vendido", sender="roct.proj1@gmail.com", recipients = [email])
+    msg.body = ""
+    mail.send(msg)
+    return "sent"
