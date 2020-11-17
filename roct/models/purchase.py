@@ -22,6 +22,8 @@ class Purchase(db.Model):
     salesman_uuid = Column(Integer)
     buyer_uuid = Column(Integer)
     nick_game = Column(String(255))
+    salesman_delivery_confirmation = Column(db.Boolean, default=False, nullable=False)
+    buyer_delivery_confirmation = Column(db.Boolean, default=False, nullable=False)
 
     def __init__(self, announcement_uuid, type_card, number_card, cvv, cpf_owner_card,
                  validity_card, name_owner_card, salesman_uuid, buyer_uuid, nick_game):
@@ -36,6 +38,8 @@ class Purchase(db.Model):
         self.salesman_uuid = salesman_uuid
         self.buyer_uuid = buyer_uuid
         self.nick_game = nick_game
+        self.salesman_delivery_confirmation = False
+        self.buyer_delivery_confirmation = False
 
     @property
     def get_salesman(self):
@@ -64,4 +68,6 @@ class Purchase(db.Model):
             'salesman': self.get_salesman,
             'buyer': self.get_buyer,
             "nick_game": self.nick_game,
+            "salesman_delivery_confirmation": self.salesman_delivery_confirmation,
+            "buyer_delivery_confirmation": self.buyer_delivery_confirmation,
         }
