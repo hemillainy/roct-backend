@@ -85,11 +85,6 @@ def confirm_delivery(uuid):
     purchase = Purchase.query.get_or_404(uuid)
     is_salesman = purchase.salesman_uuid == user['id']
 
-    print("\n\n\nuser confirm delivery", user)
-    print("purchase confirm delivery", purchase.serialize)
-    print("issalesman confirm delivery", is_salesman)
-    print("\n\n\n")
-
     if user['id'] != purchase.salesman_uuid and user['id'] != purchase.buyer_uuid:
         return jsonify(mgs='Forbidden'), 403
     if purchase.status == PurchaseStatusEnum.finished.value:
@@ -107,5 +102,5 @@ def confirm_delivery(uuid):
 
     db.session.commit()
 
-    return purchase.serialize()
+    return purchase.serialize
 
