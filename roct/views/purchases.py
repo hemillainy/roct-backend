@@ -92,7 +92,7 @@ def confirm_delivery(uuid):
 
     if user['id'] != purchase.salesman_uuid and user['id'] != purchase.buyer_uuid:
         return jsonify(mgs='Forbidden'), 403
-    if purchase.status != PurchaseStatusEnum.paid.value:
+    if purchase.status == PurchaseStatusEnum.finished.value:
         return jsonify(mgs='Confirmation not available!'), 409
 
     if is_salesman:
