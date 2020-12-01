@@ -31,6 +31,10 @@
     GET /announcements/servers                  - list servers announcements in database
     GET /announcements/salesman/<salesman_uuid> - get all announcements wiht salesman_uuid - need body with page(int) and per_page(int)
 
-## 
-
+## Announcements - /purchases
+    
+    POST /purchases/add                         - body need announcement_uuid, type_card, number_card, cvv, cpf_owner_card, validity_card, name_owner_card, salesman_uuid, buyer_uuid, nick_game
+    POST /purchases/update_status               - need body with page(int), per_page(int) and purchase_id(id)(int)
+    POST /purchases/sales                       - need body with page(int), per_page(int) and salesman_uuid(id)(int)
+    POST /purchases/purchases                   - need body with page(int), per_page(int) and buyer_id(id)(int)
     PUT /purchases/<uuid>/confirmDelivery       - confirm that the item has been delivered
