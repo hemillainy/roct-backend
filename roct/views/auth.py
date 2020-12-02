@@ -34,17 +34,22 @@ def get_user():
     print(h)
 
 
-def create_response_user_and_token(user):
+def create_response_user_and_tokens(user):
     auth_user = AuthUser(user.id, user.email)
 
-    expires = datetime.timedelta(minutes=1)
-
     return make_response(jsonify({
-        'token': create_access_token(auth_user, expires_delta=expires),
+        'token': generate_access_token(auth_user),
         'refresh_token': create_refresh_token(auth_user),
         'user': user.serialize()
     })
     )
+
+
+def generate_access_token(auth_user):
+    expires = datetime.timedelta(days=1)
+
+    access_token = create_access_token(auth_user, expires_delta=expires)
+    return access_token
 
 
 @auth.route('/login', methods=['POST'])
@@ -59,7 +64,7 @@ def login():
     if user is None or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'msg': 'Bad credentials'}), 401
 
-    return create_response_user_and_token(user)
+    return create_response_user_and_tokens(user)
 
 
 @auth.route('/refresh_token', methods=['GET'])
@@ -68,7 +73,7 @@ def refresh_token():
     user = get_jwt_identity()
     auth_user = AuthUser(user["id"], user["email"])
 
-    token = create_access_token(auth_user, expires_delta=datetime.timedelta(minutes=1))
+    token = generate_access_token(auth_user)
     return make_response(jsonify({
         'token': token
     }))
