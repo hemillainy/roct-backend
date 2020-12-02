@@ -26,13 +26,6 @@ class AuthUser:
         }
 
 
-@auth.route('/', methods=['GET'])
-def get_user():
-    data = request.get_json()
-
-    h = request.headers['Authorization']
-    print(h)
-
 
 def create_response_user_and_tokens(user):
     auth_user = AuthUser(user.id, user.email)

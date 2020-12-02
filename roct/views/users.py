@@ -4,7 +4,7 @@ from roct.models import User
 from flask_jwt_extended import jwt_required
 from roct.utils import check_user_is_same
 from flask_bcrypt import Bcrypt
-from .auth import create_response_user_and_token
+from .auth import create_response_user_and_tokens
 
 users_resource = Blueprint('users', __name__)
 bcrypt = Bcrypt()
@@ -19,7 +19,7 @@ def create():
     db.session.add(user)
     db.session.commit()
 
-    return create_response_user_and_token(user), 201
+    return create_response_user_and_tokens(user), 201
 
 
 @users_resource.route('<id>', methods=['PUT'])
