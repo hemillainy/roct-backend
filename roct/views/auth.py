@@ -1,9 +1,10 @@
 from flask import Blueprint, request, jsonify, make_response
-from flask_jwt_extended import (JWTManager, create_access_token)
+from flask_jwt_extended import (JWTManager, create_access_token, get_jwt_identity, jwt_required, create_refresh_token, jwt_refresh_token_required)
 from flask_bcrypt import Bcrypt
 from dataclasses import dataclass
 import datetime
 from roct.models import User
+
 
 auth = Blueprint('auth', __name__)
 
@@ -25,13 +26,22 @@ class AuthUser:
         }
 
 
+@auth.route('/', methods=['GET'])
+def get_user():
+    data = request.get_json()
+
+    h = request.headers['Authorization']
+    print(h)
+
+
 def create_response_user_and_token(user):
     auth_user = AuthUser(user.id, user.email)
 
-    expires = datetime.timedelta(days=1)
+    expires = datetime.timedelta(minutes=1)
 
     return make_response(jsonify({
         'token': create_access_token(auth_user, expires_delta=expires),
+        'refresh_token': create_refresh_token(auth_user),
         'user': user.serialize()
     })
     )
@@ -45,7 +55,20 @@ def login():
     password = data['password']
 
     user = User.query.filter_by(email=email).first()
+
     if user is None or not bcrypt.check_password_hash(user.password, password):
         return jsonify({'msg': 'Bad credentials'}), 401
 
     return create_response_user_and_token(user)
+
+
+@auth.route('/refresh_token', methods=['GET'])
+@jwt_refresh_token_required
+def refresh_token():
+    user = get_jwt_identity()
+    auth_user = AuthUser(user["id"], user["email"])
+
+    token = create_access_token(auth_user, expires_delta=datetime.timedelta(minutes=1))
+    return make_response(jsonify({
+        'token': token
+    }))
