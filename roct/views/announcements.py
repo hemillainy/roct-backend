@@ -109,12 +109,16 @@ def get_types():
 @announcements.route('games', methods=['GET'])
 def get_games():
     games = list(set([e.game for e in Announcement.query.all()]))
+    games.append('WYD')
+    games = sorted(games)
     return jsonify(games)
 
 
 @announcements.route('servers', methods=['GET'])
 def get_servers():
     servers = list(set([e.server for e in Announcement.query.all()]))
+    servers.append('Test')
+    servers = sorted(servers)
     return jsonify(servers)
 
 
