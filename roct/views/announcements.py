@@ -110,7 +110,7 @@ def get_types():
 def get_games():
     games = list(set([e.game for e in Announcement.query.all()]))
     games.append('WYD')
-    games = sorted(games)
+    games = sorted(list(set(games)))
     return jsonify(games)
 
 
@@ -118,7 +118,7 @@ def get_games():
 def get_servers():
     servers = list(set([e.server for e in Announcement.query.all()]))
     servers.append('Test')
-    servers = sorted(servers)
+    servers = sorted(list(set(servers)))
     return jsonify(servers)
 
 
