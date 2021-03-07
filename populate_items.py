@@ -191,7 +191,7 @@ data = [
         "game": "lol"
     },
     {
-        "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TwistedFate_13.jpgg",
+        "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TwistedFate_13.jpg",
         "name": "Skin Twisted Fate Odisseia",
         "description": "Seu destino pertence as cartas!",
         "price": "35.00",
