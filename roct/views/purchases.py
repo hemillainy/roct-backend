@@ -94,10 +94,14 @@ def confirm_delivery(uuid):
         purchase.salesman_delivery_confirmation = True
     else:
         purchase.buyer_delivery_confirmation = True
-
+    
+    #Se o comprador confirmar recebimento, a compra já deve ir para finished
+    #Se o vendedor confirmar entrega, deve ir para delivered
     if purchase.salesman_delivery_confirmation and purchase.buyer_delivery_confirmation:
         purchase.status = PurchaseStatusEnum.finished
-    elif purchase.salesman_delivery_confirmation or purchase.buyer_delivery_confirmation:
+    elif purchase.buyer_delivery_confirmation:
+        purchase.status = PurchaseStatusEnum.finished
+    elif purchase.salesman_delivery_confirmation:
         purchase.status = PurchaseStatusEnum.delivered
 
     db.session.commit()
