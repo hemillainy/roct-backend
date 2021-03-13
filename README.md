@@ -46,7 +46,8 @@
     GET /announcements/games                    - list games announcements in database
     GET /announcements/servers                  - list servers announcements in database
     GET /announcements/salesman/<salesman_uuid> - get all announcements wiht salesman_uuid - need body with page(int) and per_page(int)
-    DELETE /announcements/<uuid>                - delete an annoucemnet
+    DELETE /announcements/<uuid>                - delete an announcement
+
 ## Announcements - /purchases
 
     POST /purchases/add                         - body need announcement_uuid, type_card, number_card, cvv, cpf_owner_card, validity_card, name_owner_card, salesman_uuid, buyer_uuid, nick_game
