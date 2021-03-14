@@ -46,6 +46,7 @@
     GET /announcements/games                    - list games announcements in database
     GET /announcements/servers                  - list servers announcements in database
     GET /announcements/salesman/<salesman_uuid> - get all announcements wiht salesman_uuid - need body with page(int) and per_page(int)
+    DELETE /announcements/<uuid>                - delete an announcement
 
 ## Announcements - /purchases
 

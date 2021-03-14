@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from roct import db, mail
 import re
-from flask_jwt_extended import jwt_required
+from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from roct.models import Announcement
 from roct.models.enums import AnnouncementStatusEnum, AnnouncementTypeEnum
@@ -47,6 +47,26 @@ def get_one(uuid):
     announcement = Announcement.query.get(uuid)
     return jsonify(announcement.serialize)
 
+@announcements.route('<uuid>', methods=['DELETE'])
+@jwt_required
+def delete(uuid):
+    announcement = Announcement.query.get(uuid)
+    user = get_jwt_identity()
+
+    if not announcement: 
+        return jsonify({'msg': 'Announcement not found!'}), 404
+    
+    salesman_id = announcement.salesman_uuid
+
+    if user["id"] != salesman_id:
+        return jsonify({'msg': 'Forbidden!'}), 403
+    elif not announcement.available:
+        return jsonify({'msg': 'Announcement cannot be deleted!'}), 409
+    
+    db.session.delete(announcement)
+    db.session.commit()
+
+    return jsonify({'msg': 'Announcement deleted!'}), 200
 
 def is_valid_parameter(parameter):
     return parameter and type(parameter) == str
