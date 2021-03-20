@@ -19,8 +19,9 @@ class User(db.Model):
     cpf = Column(String(255), nullable=False, unique=True)
     isSalesman = Column(db.Boolean, default=False, nullable=False)
     avatar = Column(String(255))
+    isSuper = Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, name, phone, email, password, isSalesman, cpf, avatar):
+    def __init__(self, name, phone, email, password, isSalesman, cpf, avatar, isSuper):
         self.name = name
         self.phone = phone
         self.email = email
@@ -28,6 +29,7 @@ class User(db.Model):
         self.avatar = avatar
         self.isSalesman = isSalesman
         self.cpf = cpf
+        self.isSuper = isSuper
 
     def serialize(self):
         return {
@@ -37,5 +39,6 @@ class User(db.Model):
             "id": self.id,
             "isSalesman": self.isSalesman,
             "cpf": self.cpf,
-            "avatar": self.avatar
+            "avatar": self.avatar,
+            "isSuper": self.isSuper
         }

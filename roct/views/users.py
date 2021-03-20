@@ -13,6 +13,7 @@ bcrypt = Bcrypt()
 @users_resource.route('', methods=['POST'])
 def create():
     data = request.get_json()
+    data['isSuper'] = False
 
     user = User(**data)
 
@@ -27,7 +28,7 @@ def create():
 @check_user_is_same
 def update(id):
     data = request.get_json()
-    blocked_fields = {"password", 'id'}
+    blocked_fields = {"password", 'id', "isSuper"}
 
     user = User.query.get_or_404(id)
 
