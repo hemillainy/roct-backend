@@ -3,7 +3,7 @@ from roct import db, mail
 import re
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
-from roct.models import Announcement
+from roct.models import Announcement, User
 from roct.models.enums import AnnouncementStatusEnum, AnnouncementTypeEnum
 from flask_mail import Message
 from roct.utils import paginate
@@ -92,6 +92,10 @@ def search():
 @announcements.route('add', methods=['POST'])
 @jwt_required
 def create():
+    user = get_jwt_identity()
+    user_ = User.query.get_or_404(user['id'])
+    if user_.limited:
+      return jsonify(msg='Usuário limitado. Não pode criar anuncio'), 400
     announcement = Announcement(**request.get_json())
     db.session.add(announcement)
     db.session.commit()
