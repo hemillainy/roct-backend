@@ -51,7 +51,7 @@ class Purchase(db.Model):
 
     @property
     def get_announcement(self):
-        return Announcement.query.filter_by(uuid=self.announcement_uuid).first().serialize
+        return Announcement.query.filter_by(uuid=self.announcement_uuid).first().serialize()
 
     @property
     def serialize(self):

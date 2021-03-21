@@ -44,8 +44,11 @@ def get_metrics():
 @jwt_required
 @check_user_is_super
 def limit_user(id):
-    print(id)
     user = User.query.get_or_404(id)
+
+    if not user.isSalesman:
+      return jsonify(msg='User is not a salesman!'), 400
+
     setattr(user, 'limited', True)
     db.session.commit()
     return user.serialize()

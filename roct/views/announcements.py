@@ -6,24 +6,9 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from roct.models import Announcement
 from roct.models.enums import AnnouncementStatusEnum, AnnouncementTypeEnum
 from flask_mail import Message
+from roct.utils import paginate
 
 announcements = Blueprint('announcements', __name__)
-
-
-def paginate(query, page, per_page):
-    page = query.paginate(page=page, per_page=per_page)
-    items = [e.serialize for e in page.items]
-    info = {
-        "page": page.page,
-        "per_page": page.per_page,
-        "total": page.total
-    }
-    print("\n\n\n END PAGINATE")
-    return jsonify({
-        'data': items,
-        "info": info
-    })
-
 
 @announcements.route('check', methods=['GET'])
 def check():
@@ -33,7 +18,6 @@ def check():
 @announcements.route('', methods=['POST'])
 def get_all():
     data = request.get_json()
-    print(data)
 
     page = data['page']
     per_page = data['per_page']
@@ -45,7 +29,7 @@ def get_all():
 @announcements.route('<uuid>', methods=['GET'])
 def get_one(uuid):
     announcement = Announcement.query.get(uuid)
-    return jsonify(announcement.serialize)
+    return jsonify(announcement.serialize())
 
 @announcements.route('<uuid>', methods=['DELETE'])
 @jwt_required
@@ -111,7 +95,7 @@ def create():
     announcement = Announcement(**request.get_json())
     db.session.add(announcement)
     db.session.commit()
-    return jsonify(announcement.serialize)
+    return jsonify(announcement.serialize())
 
 
 @announcements.route('status', methods=['GET'])

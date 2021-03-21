@@ -38,7 +38,6 @@ class Announcement(db.Model):
     def get_user(self):
         return User.query.filter_by(id=self.salesman_uuid).first().serialize()
 
-    @property
     def serialize(self):
         """Return object data in easily serializable format"""
         return {
