@@ -20,8 +20,9 @@ class User(db.Model):
     isSalesman = Column(db.Boolean, default=False, nullable=False)
     avatar = Column(String(255))
     isSuper = Column(db.Boolean, default=False, nullable=False)
+    limited = Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, name, phone, email, password, isSalesman, cpf, avatar, isSuper):
+    def __init__(self, name, phone, email, password, isSalesman, cpf, avatar, isSuper, limited):
         self.name = name
         self.phone = phone
         self.email = email
@@ -30,6 +31,7 @@ class User(db.Model):
         self.isSalesman = isSalesman
         self.cpf = cpf
         self.isSuper = isSuper
+        self.limited = limited
 
     def serialize(self):
         return {
@@ -40,5 +42,6 @@ class User(db.Model):
             "isSalesman": self.isSalesman,
             "cpf": self.cpf,
             "avatar": self.avatar,
-            "isSuper": self.isSuper
+            "isSuper": self.isSuper,
+            "limited": self.limited
         }

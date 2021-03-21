@@ -29,6 +29,7 @@ class AuthUser:
 
 def create_response_user_and_tokens(user):
     auth_user = AuthUser(user.id, user.email)
+    print("USSSSSER", auth_user.serialize())
 
     return make_response(jsonify({
         'token': generate_access_token(auth_user),

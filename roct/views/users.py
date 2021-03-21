@@ -14,6 +14,7 @@ bcrypt = Bcrypt()
 def create():
     data = request.get_json()
     data['isSuper'] = False
+    data['limited'] = False
 
     user = User(**data)
 
