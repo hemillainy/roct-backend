@@ -33,6 +33,7 @@
     GET  /users/<id>                           - Get the user that has the id
     PUT  /users/<id>                           - Update the user that has the id
     PUT / users/<id>/changePassword            - Change user password: {"newPassword": String, "oldPassword": String}
+    GET /users                                 - Get all user.
 
 ## Announcements - /announcements
 
