@@ -51,7 +51,8 @@ def get_filters():
         "email": request.args.get('email'),
         "limited": request.args.get('limited'),
         "page": request.args.get('page'),
-        "per_page": request.args.get('per_page')
+        "per_page": request.args.get('per_page'),
+        "isSalesman": request.args.get('isSalesman'),
     }
 
 @users_resource.route('', methods=['GET'])
@@ -76,6 +77,10 @@ def get_all():
         limited = request.args.get('limited')
         limited = True if limited == "true" else False
         filters.append(User.limited == limited)
+    if queries['isSalesman']:
+        isSalesman = request.args.get('isSalesman')
+        isSalesman = True if isSalesman == "true" else False
+        filters.append(User.isSalesman == isSalesman)
     if queries['page']:
         page = int(queries['page'])
     if queries['per_page']:
