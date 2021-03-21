@@ -9,8 +9,8 @@ from sqlalchemy.sql import expression
 
 
 # revision identifiers, used by Alembic.
-revision = '3b94ee806d38'
-down_revision = 'eeb328b2a8cf'
+revision = '4f4cc74aa77d'
+down_revision = '3b94ee806d38'
 branch_labels = None
 depends_on = None
 
