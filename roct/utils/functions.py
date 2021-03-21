@@ -1,4 +1,5 @@
 from flask import jsonify
+from roct.models import User
 
 def paginate(query, page, per_page):
     page = query.paginate(page=page, per_page=per_page)
@@ -13,3 +14,8 @@ def paginate(query, page, per_page):
         'data': items,
         "info": info
     })
+
+def get_limited_users_ids():
+    users = User.query.all()
+    ids = [e.id for e in users if e.limited]
+    return ids
