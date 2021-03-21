@@ -6,9 +6,11 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from roct.models import Announcement, User
 from roct.models.enums import AnnouncementStatusEnum, AnnouncementTypeEnum
 from flask_mail import Message
-from roct.utils import paginate
+from roct.utils import paginate, get_limited_users_ids
 
 announcements = Blueprint('announcements', __name__)
+
+
 
 @announcements.route('check', methods=['GET'])
 def check():
@@ -18,11 +20,11 @@ def check():
 @announcements.route('', methods=['POST'])
 def get_all():
     data = request.get_json()
-
+    limiteds = get_limited_users_ids()
     page = data['page']
     per_page = data['per_page']
 
-    find = Announcement.query.filter_by(available=True)
+    find = Announcement.query.filter_by(available=True).filter(Announcement.salesman_uuid.notin_(limiteds))
     return paginate(find, page=page, per_page=per_page)
 
 
@@ -86,6 +88,8 @@ def search():
         print("FILTER BY NAME", name_search)
         find = filter_by_item(find, name_search)
 
+    limiteds = get_limited_users_ids()
+    find = find.filter_by(available=True).filter(Announcement.salesman_uuid.notin_(limiteds))
     return paginate(find, page=page, per_page=per_page)
 
 
