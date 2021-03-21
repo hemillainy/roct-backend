@@ -3,5 +3,6 @@ from .users import users_resource
 from .announcements import announcements
 from .purchases import purchases
 from .commands import commands
+from .dashboard import dashboard
 
-__ALL__ = [auth, announcements, commands, users_resource, auth, purchases]
+__ALL__ = [auth, announcements, commands, users_resource, auth, purchases, dashboard]
