@@ -56,7 +56,7 @@ def limit_user(id):
 @dashboard.route('/unlimit-user/<id>', methods=['PUT'])
 @jwt_required
 @check_user_is_super
-def limit_user(id):
+def unlimit_user(id):
     user = User.query.get_or_404(id)
 
     if not user.isSalesman:
