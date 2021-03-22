@@ -53,3 +53,15 @@ def limit_user(id):
     db.session.commit()
     return user.serialize()
     
+@dashboard.route('/unlimit-user/<id>', methods=['PUT'])
+@jwt_required
+@check_user_is_super
+def limit_user(id):
+    user = User.query.get_or_404(id)
+
+    if not user.isSalesman:
+      return jsonify(msg='User is not a salesman!'), 400
+
+    setattr(user, 'limited', False)
+    db.session.commit()
+    return user.serialize()
