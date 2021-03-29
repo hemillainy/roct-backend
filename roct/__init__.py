@@ -29,7 +29,7 @@ mail = Mail(app)
 
 
 # Blueprints
-from roct.views import auth, jwt, announcements, commands, users_resource, purchases, dashboard
+from roct.views import auth, jwt, announcements, commands, users_resource, purchases, dashboard, payments
 
 jwt.init_app(app)
 
@@ -39,3 +39,4 @@ app.register_blueprint(commands, url_prefix="/commands")
 app.register_blueprint(users_resource, url_prefix="/users")
 app.register_blueprint(purchases, url_prefix="/purchases")
 app.register_blueprint(dashboard, url_prefix="/dashboard")
+app.register_blueprint(payments, url_prefix="/payments")
