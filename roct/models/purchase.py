@@ -13,28 +13,16 @@ class Purchase(db.Model):
     uuid = Column(Integer, primary_key=True)
     status = Column(Enum(PurchaseStatusEnum))
     announcement_uuid = Column(Integer)
-    type_card = Column(Enum(TypeCard))
-    number_card = Column(String(255))
-    cvv = Column(String(3))
-    cpf_owner_card = Column(String(255))
-    validity_card = Column(String(255))
-    name_owner_card = Column(String(255))
+    payment_uuid = Column(Integer)
     salesman_uuid = Column(Integer)
     buyer_uuid = Column(Integer)
     nick_game = Column(String(255))
     salesman_delivery_confirmation = Column(db.Boolean, default=False, nullable=False)
     buyer_delivery_confirmation = Column(db.Boolean, default=False, nullable=False)
 
-    def __init__(self, announcement_uuid, type_card, number_card, cvv, cpf_owner_card,
-                 validity_card, name_owner_card, salesman_uuid, buyer_uuid, nick_game):
+    def __init__(self, announcement_uuid, salesman_uuid, buyer_uuid, nick_game):
         self.announcement_uuid = announcement_uuid
         self.status = PurchaseStatusEnum.initiated
-        self.type_card = TypeCard[type_card]
-        self.number_card = number_card
-        self.cvv = cvv
-        self.cpf_owner_card = cpf_owner_card
-        self.validity_card = validity_card
-        self.name_owner_card = name_owner_card
         self.salesman_uuid = salesman_uuid
         self.buyer_uuid = buyer_uuid
         self.nick_game = nick_game
