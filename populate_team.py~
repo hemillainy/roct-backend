@@ -12,10 +12,19 @@ data = [
     {
         "name":"Hemillainy Santos",
         "email":"hemillainysantos@gmail.com",
-        "cpf":"14569872235",
-        "phone":"88218483829",
+        "cpf":"12345797890",
+        "phone":"87218483829",
         "isSalesman":False,
         "password":"hemi@123", 
+        "avatar": "https://i.imgur.com/bEOnkfU.jpg"
+    },
+    {
+        "name":"Hemillainy Santos",
+        "email":"hemillainysantos@hotmail.com",
+        "cpf":"31041952004",
+        "phone":"55743707017",
+        "isSalesman":False,
+        "password":"abc", 
         "avatar": "https://i.imgur.com/bEOnkfU.jpg"
     }
 ]

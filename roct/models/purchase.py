@@ -1,7 +1,7 @@
 from roct import db
 from dataclasses import dataclass
 from sqlalchemy import Integer, Enum, String, Column
-from .enums import PurchaseStatusEnum, TypeCard
+from .enums import PurchaseStatusEnum
 from .user import User
 from .announcement import Announcement
 
@@ -48,11 +48,6 @@ class Purchase(db.Model):
             'uuid': self.uuid,
             'status': self.status.serialize,
             'announcement': self.get_announcement,
-            'type_card': self.type_card.serialize,
-            'number_card': self.number_card,
-            'cpf_owner_card': self.cpf_owner_card,
-            'validity_card': self.validity_card,
-            'name_owner_card': self.name_owner_card,
             'salesman': self.get_salesman,
             'buyer': self.get_buyer,
             "nick_game": self.nick_game,
